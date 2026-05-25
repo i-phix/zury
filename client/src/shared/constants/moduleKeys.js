@@ -1,0 +1,18 @@
+export const MODULES = {
+  DASHBOARD:      'dashboard',
+  PROPERTIES:     'properties',
+  LEASING:        'leasing',
+  TENANTS:        'tenants',
+  PAYMENTS:       'payments',
+  MAINTENANCE:    'maintenance',
+  ACCOUNTING:     'accounting',
+  REPORTS:        'reports',
+  SCREENING:      'screening',
+  COMMUNICATIONS: 'communications',
+  DOCUMENTS:      'documents',
+  OWNERS:         'owners',
+  SETTINGS:       'settings',
+  PORTAL_TENANT:  'portal:tenant',
+  PORTAL_VENDOR:  'portal:vendor',
+  PORTAL_OWNER:   'portal:owner',
+}

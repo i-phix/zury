@@ -1,0 +1,40 @@
+const BASE = '/api/v1'
+
+export const API = {
+  AUTH: {
+    LOGIN:           BASE + '/auth/login',
+    REGISTER:        BASE + '/auth/register',
+    LOGOUT:          BASE + '/auth/logout',
+    REFRESH:         BASE + '/auth/refresh',
+    FORGOT_PASSWORD: BASE + '/auth/forgot-password',
+    RESET_PASSWORD:  BASE + '/auth/reset-password',
+    ME:              BASE + '/auth/me',
+  },
+  USERS:        BASE + '/users',
+  ROLES:        BASE + '/roles',
+  PROPERTIES:   BASE + '/properties',
+  UNITS:        BASE + '/units',
+  TENANTS:      BASE + '/tenants',
+  LEASES:       BASE + '/leases',
+  APPLICATIONS: BASE + '/applications',
+  PAYMENTS:     BASE + '/payments',
+  INVOICES:     BASE + '/invoices',
+  MAINTENANCE: {
+    WORK_ORDERS: BASE + '/work-orders',
+    VENDORS:     BASE + '/vendors',
+    INSPECTIONS: BASE + '/inspections',
+    ASSETS:      BASE + '/assets',
+  },
+  ACCOUNTING: {
+    ACCOUNTS:  BASE + '/accounts',
+    LEDGER:    BASE + '/ledger',
+    BUDGETS:   BASE + '/budgets',
+    EXPENSES:  BASE + '/expenses',
+  },
+  REPORTS:    BASE + '/reports',
+  SCREENING:  BASE + '/screening',
+  MESSAGES:   BASE + '/messages',
+  DOCUMENTS:  BASE + '/documents',
+  OWNERS:     BASE + '/owners',
+  SETTINGS:   BASE + '/settings',
+}
