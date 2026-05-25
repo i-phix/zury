@@ -7,6 +7,8 @@ export const ROLES = {
   OWNER:             'owner',
   TENANT:            'tenant',
   VENDOR:            'vendor',
+  CUSTOMER_SUPPORT:  'customer_support',
+  AI_ASSISTANT:     'ai_assistant',
 }
 
 export const ROLE_LABELS = {
@@ -18,4 +20,6 @@ export const ROLE_LABELS = {
   owner:             'Owner',
   tenant:            'Tenant',
   vendor:            'Vendor',
+  customer_support:  'Customer Support',
+  ai_assistant:     'AI Assistant',
 }

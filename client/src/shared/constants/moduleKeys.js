@@ -15,4 +15,6 @@ export const MODULES = {
   PORTAL_TENANT:  'portal:tenant',
   PORTAL_VENDOR:  'portal:vendor',
   PORTAL_OWNER:   'portal:owner',
+  CUSTOMER_SUPPORT: 'customer_support',
+  AI_ASSISTANT:    'ai_assistant',
 }

@@ -1,5 +1,5 @@
 export const APP_CONFIG = {
-  APP_NAME:    'PropManager',
+  APP_NAME:    'Zuri',
   APP_VERSION: '1.0.0',
   API_TIMEOUT: 30000,
   PAGE_SIZE:   25,

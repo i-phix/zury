@@ -1,18 +1,320 @@
-/* Breakpoint reference — use in component CSS as needed */
-/* sm:  640px  */
-/* md:  768px  */
-/* lg:  1024px */
-/* xl:  1280px */
-/* 2xl: 1536px */
+/* ═══════════════════════════════════════════════════════════════
+   ZURI — Breakpoints & Responsive System
 
-.container {
-  width: 100%;
-  margin-inline: auto;
-  padding-inline: 1rem;
+   Breakpoint scale:
+     xs   — 0px      (phones portrait)
+     sm   — 480px    (phones landscape)
+     md   — 768px    (tablets portrait)
+     lg   — 1024px   (tablets landscape, small laptops)
+     xl   — 1280px   (desktops — Zuri's primary target)
+     2xl  — 1536px   (large monitors)
+     3xl  — 1920px   (ultra-wide)
+
+   Usage (in component CSS):
+     @media (min-width: var(--bp-md)) { ... }  ← does NOT work
+     @media (min-width: 768px) { ... }         ← use raw px in @media
+
+   The variables below are for JS use via getComputedStyle or
+   for documentation. All @media rules use raw px values.
+═══════════════════════════════════════════════════════════════ */
+
+@import './variables.css';
+
+:root {
+  /* Breakpoint reference (for JS: getComputedStyle(root).getPropertyValue('--bp-md')) */
+  --bp-xs:  480px;
+  --bp-sm:  480px;
+  --bp-md:  768px;
+  --bp-lg:  1024px;
+  --bp-xl:  1280px;
+  --bp-2xl: 1536px;
+  --bp-3xl: 1920px;
+
+  /* Content max-widths per breakpoint context */
+  --max-w-xs:   100%;
+  --max-w-sm:   540px;
+  --max-w-md:   720px;
+  --max-w-lg:   960px;
+  --max-w-xl:   1200px;
+  --max-w-2xl:  1400px;
+  --max-w-full: 100%;
+
+  /* Sidebar behavior tokens — override at breakpoints below */
+  --sidebar-behavior: 'docked';   /* 'docked' | 'overlay' | 'hidden' */
 }
 
-@media (min-width: 640px)  { .container { max-width: 640px; } }
-@media (min-width: 768px)  { .container { max-width: 768px;  padding-inline: 1.5rem; } }
-@media (min-width: 1024px) { .container { max-width: 1024px; padding-inline: 2rem; } }
-@media (min-width: 1280px) { .container { max-width: 1280px; } }
-@media (min-width: 1536px) { .container { max-width: 1536px; } }
+/* ────────────────────────────────────────────────────────────────
+   XS — 0 to 479px  (phone portrait)
+   Sidebar: hidden (hamburger), full-width content
+──────────────────────────────────────────────────────────────── */
+@media (max-width: 479px) {
+  :root {
+    --sidebar-behavior:  'hidden';
+    --content-padding-x: var(--space-4);
+    --content-padding-y: var(--space-4);
+    --topbar-height:     56px;
+  }
+
+  .zuri-sidebar {
+    position:    fixed;
+    top:         0;
+    left:        0;
+    height:      100%;
+    width:       var(--sidebar-width) !important;
+    transform:   translateX(-100%);
+    transition:  transform var(--duration-slow) var(--ease-out);
+    z-index:     var(--z-modal);
+    box-shadow:  var(--shadow-2xl);
+  }
+
+  .zuri-sidebar--open {
+    transform: translateX(0);
+  }
+
+  /* Full-width cards on mobile */
+  .card {
+    border-radius: var(--radius-lg);
+    padding:       var(--space-4);
+  }
+
+  /* Stack grid columns to single column */
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: 1fr;
+  }
+
+  /* Hide non-essential columns in tables */
+  .col-hide-xs { display: none; }
+
+  /* Typography scale down */
+  h1, .h1       { font-size: var(--text-4xl); }
+  h2, .h2       { font-size: var(--text-3xl); }
+  .display-1    { font-size: var(--text-4xl); }
+  .display-2    { font-size: var(--text-3xl); }
+  .stat-value   { font-size: var(--text-3xl); }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   SM — 480px to 767px  (phone landscape / large phones)
+──────────────────────────────────────────────────────────────── */
+@media (min-width: 480px) and (max-width: 767px) {
+  :root {
+    --content-padding-x: var(--space-5);
+    --content-padding-y: var(--space-5);
+  }
+
+  .zuri-sidebar {
+    position:  fixed;
+    transform: translateX(-100%);
+    z-index:   var(--z-modal);
+    box-shadow: var(--shadow-2xl);
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+
+  .zuri-sidebar--open {
+    transform: translateX(0);
+  }
+
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .col-hide-sm { display: none; }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   MD — 768px to 1023px  (tablets)
+   Sidebar: collapsed icon rail
+──────────────────────────────────────────────────────────────── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --content-padding-x: var(--space-6);
+    --content-padding-y: var(--space-6);
+  }
+
+  /* Collapse sidebar to icon rail */
+  .zuri-sidebar {
+    width: var(--sidebar-collapsed);
+  }
+
+  /* Hide sidebar text labels, show only icons */
+  .sidebar-label,
+  .sidebar-section-title,
+  .sidebar-logo-text {
+    display: none;
+  }
+
+  .sidebar-item {
+    justify-content: center;
+    padding-left:    0;
+    padding-right:   0;
+  }
+
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .col-hide-md { display: none; }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   LG — 1024px to 1279px  (small laptops, tablets landscape)
+   Sidebar: collapsed by default, expandable
+──────────────────────────────────────────────────────────────── */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  :root {
+    --content-padding-x: var(--space-6);
+    --content-padding-y: var(--space-6);
+  }
+
+  .col-hide-lg { display: none; }
+
+  .grid-cols-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   XL — 1280px to 1535px  (primary Zuri desktop target)
+   Full sidebar, full content, optimal dashboard layout
+──────────────────────────────────────────────────────────────── */
+@media (min-width: 1280px) {
+  :root {
+    --content-padding-x: var(--space-8);
+    --content-padding-y: var(--space-8);
+  }
+
+  /* All sidebar text visible */
+  .sidebar-label,
+  .sidebar-section-title,
+  .sidebar-logo-text {
+    display: block;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   2XL — 1536px+  (large monitors)
+──────────────────────────────────────────────────────────────── */
+@media (min-width: 1536px) {
+  :root {
+    --sidebar-width:    280px;
+    --content-padding-x: var(--space-10);
+    --content-padding-y: var(--space-10);
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   3XL — 1920px+  (ultra-wide, constrain content)
+──────────────────────────────────────────────────────────────── */
+@media (min-width: 1920px) {
+  :root {
+    --sidebar-width: 300px;
+  }
+
+  .zuri-content > * {
+    max-width: var(--content-max-width);
+    margin-left:  auto;
+    margin-right: auto;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   Responsive Grid Helpers
+   Use with Tailwind or standalone
+──────────────────────────────────────────────────────────────── */
+
+.grid-responsive {
+  display:               grid;
+  gap:                   var(--space-5);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 480px) {
+  .grid-responsive { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .grid-responsive { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1280px) {
+  .grid-responsive { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* KPI stat cards — 2 on tablet, 4 on desktop */
+.grid-stats {
+  display:               grid;
+  gap:                   var(--space-5);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 480px) {
+  .grid-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1280px) {
+  .grid-stats { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   Mobile-only overlay backdrop
+   Shown when sidebar is open on xs/sm
+──────────────────────────────────────────────────────────────── */
+
+.sidebar-backdrop {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .sidebar-backdrop {
+    display:    block;
+    position:   fixed;
+    inset:      0;
+    background: var(--surface-overlay);
+    z-index:    calc(var(--z-modal) - 1);
+    opacity:    0;
+    pointer-events: none;
+    transition: opacity var(--duration-normal) var(--ease-out);
+    backdrop-filter: blur(2px);
+  }
+
+  .sidebar-backdrop--visible {
+    opacity:        1;
+    pointer-events: auto;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   Print
+──────────────────────────────────────────────────────────────── */
+
+@media print {
+  .zuri-sidebar,
+  .zuri-topbar,
+  .btn,
+  .no-print {
+    display: none !important;
+  }
+
+  .zuri-main {
+    overflow: visible;
+  }
+
+  .zuri-content {
+    overflow:  visible;
+    padding:   0;
+  }
+
+  .card {
+    box-shadow:   none;
+    border:       1px solid var(--border-subtle);
+    break-inside: avoid;
+  }
+
+  body {
+    background: white;
+    color:      black;
+  }
+}

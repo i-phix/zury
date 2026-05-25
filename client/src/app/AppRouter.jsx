@@ -1,20 +1,38 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate } from "react-router-dom";
+import { lazy, Suspense } from "react";
 
-// Layouts — uncomment as modules are built
-// import MainLayout from '../layouts/main/MainLayout'
-// import AuthLayout from '../layouts/auth/AuthLayout'
+import Home from "../modules/home/pages/Home/Home";
 
-// Pages — uncomment as modules are built
-// import Login from '../modules/auth/pages/Login/Login'
-// import Dashboard from '../modules/dashboard/pages/Dashboard/Dashboard'
+function PageLoader() {
+  return (
+    <div style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      minHeight: "100vh",
+      background: "#ffffff",
+    }}>
+      <span style={{
+        fontFamily: "'DM Sans', sans-serif",
+        fontSize: 13,
+        letterSpacing: "0.15em",
+        color: "#e4a80f",
+        textTransform: "uppercase",
+      }}>
+        Loading…
+      </span>
+    </div>
+  );
+}
 
 export default function AppRouter() {
   return (
-    <BrowserRouter>
+    <Suspense fallback={<PageLoader />}>
       <Routes>
-        <Route path="/" element={<div>PropManager</div>} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/"     element={<Navigate to="/home" replace />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="*"     element={<Navigate to="/home" replace />} />
       </Routes>
-    </BrowserRouter>
-  )
+    </Suspense>
+  );
 }

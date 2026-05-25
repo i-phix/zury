@@ -1,10 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit'
-
-// Reducers added here as modules are built
-// import authReducer from '../modules/auth/store/auth.slice'
+import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({
-  reducer: {},
-})
-
-export default store
+  reducer: {
+    // auth:         authReducer,
+    // dashboard:    dashboardReducer,
+  },
+});
