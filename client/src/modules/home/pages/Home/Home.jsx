@@ -17,10 +17,9 @@ export default function Home() {
       <NavBar />
       <HeroSection />
       <PricingSection />
-      <FeaturesSection />
-      <PortalsSection />
       <TestimonialSection />
       <CTASection />
+      <FeaturesSection />
       <Footer />
     </div>
   );

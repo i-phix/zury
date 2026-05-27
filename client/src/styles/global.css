@@ -287,8 +287,8 @@ table {
   align-items:     center;
   justify-content: center;
   gap:             var(--space-2);
-  padding:         var(--space-2) var(--space-5);
-  border-radius:   var(--radius-md);
+  padding:         var(--space-5) var(--space-10);
+  border-radius:   var(--radius-full);
   font-family:     var(--font-body);
   font-size:       var(--text-sm);
   font-weight:     var(--weight-medium);
@@ -299,6 +299,7 @@ table {
   transition:      var(--transition-all);
   position:        relative;
   overflow:        hidden;
+  text-decoration: none;
 }
 
 .btn:disabled {
@@ -310,7 +311,7 @@ table {
 .btn--primary {
   background: linear-gradient(135deg, var(--gold-600), var(--gold-500));
   color:      var(--white);
-  box-shadow: var(--shadow-gold-sm);
+  box-shadow: 0px 1px 18px rgba(0, 0, 0, 0.4);
 }
 
 .btn--primary:hover:not(:disabled) {

@@ -2,36 +2,51 @@
    Zuri — Testimonial Section
    src/modules/home/components/TestimonialSection/TestimonialSection.jsx
 ═══════════════════════════════════════════════════════════════ */
-import { useReveal }   from "../../hooks/useReveal";
+import { useReveal } from "../../hooks/useReveal";
 import { TESTIMONIAL } from "../../constants/homeData";
 
 export default function TestimonialSection() {
   const ref = useReveal();
 
   return (
-    <section className="section quote-section">
-      <div ref={ref} className="quote-inner reveal">
+    <>
+      {/* Gray headline band — sits flush under pricing dots */}
+      <div className="quote-headline-band">
+        <h2 className="quote-headline-text">
+          {TESTIMONIAL.headlineTop}<br />
+          <em>{TESTIMONIAL.headlineBottom}</em>
+        </h2>
+      </div>
 
-        {/* Opening quote mark */}
-        <span className="quote-mark" aria-hidden="true">"</span>
+      {/* White testimonial row */}
+      <section className="quote-section">
+        <img
+          className="quote-bg-plant"
+          src="/assets/icons/ui/property/testimonial-bg.svg"
+          alt=""
+          aria-hidden="true"
+        />
 
-        {/* Quote */}
-        <blockquote className="quote-text">
-          {TESTIMONIAL.quote}
-        </blockquote>
+        <div ref={ref} className="quote-inner reveal">
+          <span className="quote-mark quote-mark--open" aria-hidden="true">"</span>
 
-        {/* Author */}
-        <div className="quote-author">
-          <div className="quote-avatar" aria-hidden="true">
-            {TESTIMONIAL.initials}
-          </div>
-          <div>
-            <div className="quote-author-name">{TESTIMONIAL.name}</div>
-            <div className="quote-author-role">{TESTIMONIAL.role}</div>
+          <blockquote className="quote-text">
+            {TESTIMONIAL.quote}
+          </blockquote>
+
+          <span className="quote-mark quote-mark--close" aria-hidden="true">"</span>
+
+          <div className="quote-author">
+            <div className="quote-avatar" aria-hidden="true">
+              {TESTIMONIAL.initials}
+            </div>
+            <div>
+              <div className="quote-author-name">{TESTIMONIAL.name}</div>
+              <div className="quote-author-role">{TESTIMONIAL.role}</div>
+            </div>
           </div>
         </div>
-
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

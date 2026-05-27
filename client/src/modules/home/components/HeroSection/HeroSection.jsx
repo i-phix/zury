@@ -8,9 +8,9 @@ export default function HeroSection() {
       <div className="hero-left">
         <div className="hero-inner">
 
-          <h1 className="hero-headline">Simple software</h1>
-          <h1 className="hero-headline">specially</h1>
-          <h1 className="hero-headline hero-headline--accent">designed for You</h1>
+          <h1 className="hero-headline">Surpassingly </h1>
+          <h1 className="hero-headline">simple software</h1>
+         
 
           <p className="hero-sub">
             Unlock smarter property management built for complete confidence and control. All-in one place, all for you.

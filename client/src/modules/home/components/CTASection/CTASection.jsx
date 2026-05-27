@@ -1,7 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════
-   Zuri — CTA Section
-   src/modules/home/components/CTASection/CTASection.jsx
-═══════════════════════════════════════════════════════════════ */
+/* Zuri — CTA Section src/modules/home/components/CTASection/CTASection.jsx */
 import { useNavigate } from "react-router-dom";
 import { useReveal }   from "../../hooks/useReveal";
 import { icons }       from "../../constants/homeData";
@@ -16,26 +13,22 @@ export default function CTASection() {
         <div className="cta-box">
 
           <h2 className="cta-title">
-            Ready to manage <em>smarter?</em>
+            See the difference
           </h2>
-          <p className="cta-sub">
-            Join thousands of property managers already using Zuri.
-            Free 30-day trial. No credit card required.
-          </p>
-
+          
           <div className="cta-actions">
             <button
-              className="btn-hero-primary"
-              onClick={() => navigate("/register")}
+              className="cta-btn"
+             
             >
-              Start free trial
+              <span>GET A DEMO</span> <span class="cta-next"><img class="cta-img" src="/assets/icons/ui/property/greater-than-sign.svg" alt="Manage Property and Portfolio" /></span>
             </button>
             <button
-              className="btn-hero-secondary"
-              onClick={() => navigate("/login")}
+              className="cta-btn"
+              
             >
-              {icons.arrow}
-              Sign in
+              
+              JOIN A WEBINAR <span class="cta-next"><img class="cta-img" src="/assets/icons/ui/property/greater-than-sign.svg" alt="Manage Property and Portfolio" /></span>
             </button>
           </div>
 
