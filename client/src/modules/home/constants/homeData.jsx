@@ -47,18 +47,16 @@ export const icons = {
     </svg>
   ),
 };
-
 /* ── Nav Links ──────────────────────────────────────────────── */
 export const NAV_LINKS = [
-  { label: "Property Type", href: "#",          dropdown: true,  dropdownType: "property" },
-  { label: "Pricing",       href: "#",          dropdown: true,  dropdownType: "pricing"  },
-  { label: "FAQ",           href: "#faq",       dropdown: false },
-  { label: "Events",        href: "#events",    dropdown: true,  dropdownType: "events"   },
-  { label: "Blog",          href: "#blog",      dropdown: false },
-  { label: "Contact Us",    href: "#contact",   dropdown: false },
-  { label: "Resources",     href: "#resources", dropdown: false, highlight: true },
+  { label: "Property Type", href: "#",            dropdown: true,  dropdownType: "property" },
+  { label: "Pricing",       href: "#",            dropdown: true,  dropdownType: "pricing"  },
+  { label: "FAQ",           href: "#faq",         dropdown: false },
+  { label: "Events",        href: "#events",      dropdown: true,  dropdownType: "events"   },
+  { label: "Blog",          href: "#blog",        dropdown: false },
+  { label: "Contact Us",    href: "/contact-us",  dropdown: false },
+  { label: "Resources",     href: "#resources",   dropdown: false, highlight: true },
 ];
-
 /* ── Hero Stats ─────────────────────────────────────────────── */
 export const HERO_STATS = [
   { num: "12k+", label: "Properties managed"  },

@@ -1,22 +1,27 @@
+/* ═══════════════════════════════════════════════════════════════
+   App Router
+   src/app/AppRouter.jsx
+═══════════════════════════════════════════════════════════════ */
 import { Routes, Route, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
 
-import Home from "../modules/home/pages/Home/Home";
+import Home        from "../modules/home/pages/Home/Home";
+import ContactPage from "../modules/contact-us/pages/ContactPage/ContactPage";
 
 function PageLoader() {
   return (
     <div style={{
-      display: "flex",
-      alignItems: "center",
+      display:        "flex",
+      alignItems:     "center",
       justifyContent: "center",
-      minHeight: "100vh",
-      background: "#ffffff",
+      minHeight:      "100vh",
+      background:     "#ffffff",
     }}>
       <span style={{
-        fontFamily: "'DM Sans', sans-serif",
-        fontSize: 13,
+        fontFamily:    "'DM Sans', sans-serif",
+        fontSize:       13,
         letterSpacing: "0.15em",
-        color: "#e4a80f",
+        color:         "#e4a80f",
         textTransform: "uppercase",
       }}>
         Loading…
@@ -29,9 +34,9 @@ export default function AppRouter() {
   return (
     <Suspense fallback={<PageLoader />}>
       <Routes>
-        <Route path="/"     element={<Navigate to="/home" replace />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="*"     element={<Navigate to="/home" replace />} />
+        <Route path="/"          element={<Home />}        />
+        <Route path="/contact-us"   element={<ContactPage />} />
+        <Route path="*"          element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>
   );

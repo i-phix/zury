@@ -8,7 +8,6 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate }           from "react-router-dom";
 import { NAV_LINKS, PROPERTY_TYPES }   from "../../constants/homeData";
 
-/* ── Icons ───────────────────────────────────────────────────── */
 function ChevronIcon() {
   return (
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -236,7 +235,7 @@ export default function NavBar() {
             Contact
           </Link>
           <Link to="/register" className="btn-gold" aria-label="Get started with Zuri">
-            Get Started
+            Login
           </Link>
 
           {/* Hamburger — mobile only */}

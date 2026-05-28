@@ -8,6 +8,8 @@ import { helmetConfig } from './config/security/helmet.config.js'
 import { rateLimiter } from './shared/middleware/rateLimiter.js'
 import { requestLogger } from './shared/middleware/requestLogger.js'
 import { errorHandler } from './shared/middleware/errorHandler.js'
+import contactUsRoutes from "./modules/contact-us/routes/contact-us.routes.js";
+
 
 // Route imports — uncomment as modules are built
 // import authRoutes from './modules/auth/routes/auth.routes.js'
@@ -17,9 +19,11 @@ import { errorHandler } from './shared/middleware/errorHandler.js'
 const app = express()
 const server = http.createServer(app)
 
+app.use("/api/contact-us", contactUsRoutes);
 // Security
 app.use(helmetConfig)
 app.use(corsConfig)
+
 
 // Body parsing
 app.use(express.json({ limit: '10mb' }))

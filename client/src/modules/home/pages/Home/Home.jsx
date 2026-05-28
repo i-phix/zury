@@ -10,7 +10,8 @@ import TestimonialSection from "../../components/TestimonialSection/TestimonialS
 import CTASection         from "../../components/CTASection/CTASection";
 import Footer             from "../../components/Footer/Footer";
 import PricingSection     from "../../components/PricingSection/PricingSection";
-
+import ChatWidget     from "../../components/ChatWidget/ChatWidget";
+import BlogPostsSection from "../../components/BlogPostsSection/BlogPostsSection";
 export default function Home() {
   return (
     <div className="home">
@@ -19,8 +20,11 @@ export default function Home() {
       <PricingSection />
       <TestimonialSection />
       <CTASection />
+      <BlogPostsSection/>
       <FeaturesSection />
+      <PortalsSection />
       <Footer />
+      <ChatWidget />
     </div>
   );
 }

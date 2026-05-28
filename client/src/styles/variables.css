@@ -8,12 +8,12 @@
   --gold-100: #FEF3C7;
   --gold-200: #FDE68A;
   --gold-300: #FCD34D;
-  --gold-400: #FBBF24;
-  --gold-500: #e4a80f;   /* Primary gold */
-  --gold-600: #e4ae27;   /* Slightly warmer */
-  --gold-700: #d8a641;   /* Deep antique gold */
-  --gold-800: #b8860b;   /* Dark gold — text on light bg */
-  --gold-900: #92650a;   /* Darkest — high-contrast text */
+  --gold-400: #ffaa0d;
+  --gold-500: #ffaa0d;   /* Primary gold */
+  --gold-600: #ffaa0d;   /* Slightly warmer */
+  --gold-700: #ffaa0d;   /* Deep antique gold */
+  --gold-800: #ffaa0d;   /* Dark gold — text on light bg */
+  --gold-900: #ffaa0d;   /* Darkest — high-contrast text */
 
   /* Gold as RGB for compositing */
   --gold-500-rgb: 228, 168, 15;

@@ -1,0 +1,132 @@
+/* ═══════════════════════════════════════════════════════════════
+   Shared UI — Stepper
+   src/shared/components/ui/Stepper/Stepper.css
+═══════════════════════════════════════════════════════════════ */
+
+.pmst-stepper {
+  padding: 24px 32px 20px;
+  border-bottom: 1px solid #F3F4F6;
+  width: 100%;
+}
+
+.pmst-track {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+/* ── Progress line ── */
+.pmst-line-bg {
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  right: 22px;
+  height: 2px;
+  background: #E5E7EB;
+  border-radius: 2px;
+}
+
+.pmst-line-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #ffaa0d, #FBBF24);
+  border-radius: 2px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Step ── */
+.pmst-step {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Node ── */
+.pmst-node {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.pmst-node.inactive {
+  background: #ffffff;
+  border: 2px solid #D1D5DB;
+  color: #9CA3AF;
+}
+
+.pmst-node.active {
+  background: linear-gradient(135deg, #ffaa0d, #FBBF24);
+  border: none;
+  color: #ffffff;
+  box-shadow: 0 0 0 4px #FEF3C7, 0 4px 12px rgba(212, 160, 23, 0.35);
+  font-weight: 600;
+}
+
+.pmst-node.active::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid #FCD34D;
+  opacity: 0.6;
+  animation: pmst-pulse 2s ease-in-out infinite;
+}
+
+@keyframes pmst-pulse {
+  0%, 100% { transform: scale(1);    opacity: 0.6;  }
+  50%       { transform: scale(1.08); opacity: 0.25; }
+}
+
+.pmst-node.done {
+  background: linear-gradient(135deg, #ffaa0d, #FBBF24);
+  border: none;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(212, 160, 23, 0.2);
+}
+
+/* ── Check icon ── */
+.pmst-check {
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Caret ── */
+.pmst-caret {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffaa0d;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ── Label ── */
+.pmst-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: #9CA3AF;
+  text-align: center;
+  white-space: nowrap;
+  transition: color 0.3s;
+}
+
+.pmst-label.active { color: #ffaa0d; font-weight: 500; }
+.pmst-label.done   { color: #ffaa0d; }
