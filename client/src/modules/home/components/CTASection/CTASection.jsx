@@ -21,14 +21,14 @@ export default function CTASection() {
               className="cta-btn"
              
             >
-              <span>GET A DEMO</span> <span class="cta-next"><img class="cta-img" src="/assets/icons/ui/property/greater-than-sign.svg" alt="Manage Property and Portfolio" /></span>
+              <span>GET A DEMO</span> <span className="cta-next"><img className="cta-img" src="/assets/icons/ui/property/greater-than-sign.svg" alt="Manage Property and Portfolio" /></span>
             </button>
             <button
               className="cta-btn"
               
             >
               
-              JOIN A WEBINAR <span class="cta-next"><img class="cta-img" src="/assets/icons/ui/property/greater-than-sign.svg" alt="Manage Property and Portfolio" /></span>
+              JOIN A WEBINAR <span className="cta-next"><img className="cta-img" src="/assets/icons/ui/property/greater-than-sign.svg" alt="Manage Property and Portfolio" /></span>
             </button>
           </div>
 

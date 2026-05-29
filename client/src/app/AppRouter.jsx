@@ -1,12 +1,11 @@
 /* ═══════════════════════════════════════════════════════════════
-   App Router
-   src/app/AppRouter.jsx
+  src/app/AppRouter.jsx
 ═══════════════════════════════════════════════════════════════ */
 import { Routes, Route, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
 
 import Home        from "../modules/home/pages/Home/Home";
-import ContactPage from "../modules/contact-us/pages/ContactPage/ContactPage";
+import ContactUsPage from "../modules/contact-us/pages/ContactUsPage/ContactUsPage";
 
 function PageLoader() {
   return (
@@ -35,7 +34,7 @@ export default function AppRouter() {
     <Suspense fallback={<PageLoader />}>
       <Routes>
         <Route path="/"          element={<Home />}        />
-        <Route path="/contact-us"   element={<ContactPage />} />
+        <Route path="/contact-us"   element={<ContactUsPage />} />
         <Route path="*"          element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>

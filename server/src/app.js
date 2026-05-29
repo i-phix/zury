@@ -8,8 +8,7 @@ import { helmetConfig } from './config/security/helmet.config.js'
 import { rateLimiter } from './shared/middleware/rateLimiter.js'
 import { requestLogger } from './shared/middleware/requestLogger.js'
 import { errorHandler } from './shared/middleware/errorHandler.js'
-import contactUsRoutes from "./modules/contact-us/routes/contact-us.routes.js";
-
+import contactUsRoutes from './modules/contact-us/routes/contact-us.routes.js'
 
 // Route imports — uncomment as modules are built
 // import authRoutes from './modules/auth/routes/auth.routes.js'
@@ -19,11 +18,9 @@ import contactUsRoutes from "./modules/contact-us/routes/contact-us.routes.js";
 const app = express()
 const server = http.createServer(app)
 
-app.use("/api/contact-us", contactUsRoutes);
-// Security
+// Security (must come before routes)
 app.use(helmetConfig)
 app.use(corsConfig)
-
 
 // Body parsing
 app.use(express.json({ limit: '10mb' }))
@@ -38,8 +35,14 @@ app.use('/api', rateLimiter)
 // Health check
 app.get('/health', (_req, res) => res.json({ status: 'ok', timestamp: new Date() }))
 
-// API routes
-app.use('/api/v1', (_req, res) => res.json({ message: 'PropManager API v1' }))
+// API routes — uncomment as modules are built
+app.use('/api/contact-us', contactUsRoutes)
+// app.use('/api/v1/auth', authRoutes)
+// app.use('/api/v1/users', userRoutes)
+// app.use('/api/v1/properties', propertyRoutes)
+
+// Fallback for unmatched /api/v1 routes
+app.use('/api/v1', (_req, res) => res.status(404).json({ message: 'Route not found' }))
 
 // Error handler (must be last)
 app.use(errorHandler)

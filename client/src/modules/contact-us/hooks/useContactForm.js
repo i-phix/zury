@@ -7,20 +7,25 @@ import {
   FORM_FIELDS,
   INITIAL_FORM_STATE,
   COUNTRY_OPTIONS,
-  makePhoneValidator,
 } from "../data/formConfig";
-import { contactService }  from "../services/contact.service";
-import { formatPayload }   from "../utils/formatPayload";
+import { makePhoneValidator }            from "../utils/phoneUtils";
+import { validateAll, hasErrors }        from "../utils/contactValidators";
+import { extractErrorMessage, touchAll } from "../utils/submitHelpers";
+import { SUBMIT_STATUS }                 from "../constants/contact.constants";
+import { contactService }                from "../services/contact.service";
+import { analyticsService }              from "../services/analytics.service";
+import { formatPayload }                 from "../utils/formatPayload";
 
 /* ── Initial state ───────────────────────────────────────────── */
 const initialState = {
-  step:         "country",   // "country" | "form"
-  values:       { ...INITIAL_FORM_STATE, phoneCode: "" },
-  errors:       {},
-  touched:      {},
-  brochure:     false,
-  submitStatus: "idle",      // "idle" | "loading" | "success" | "error"
-  serverError:  null,
+  step:           "country",
+  values:         { ...INITIAL_FORM_STATE, phoneCode: "" },
+  errors:         {},
+  touched:        {},
+  brochure:       false,
+  submitStatus:   SUBMIT_STATUS.IDLE,
+  serverError:    null,
+  successMessage: null,
 };
 
 /* ── Reducer ─────────────────────────────────────────────────── */
@@ -75,22 +80,19 @@ function formReducer(state, action) {
     case "TOGGLE_BROCHURE":
       return { ...state, brochure: !state.brochure };
 
-    case "VALIDATE_ALL": {
-      const errors  = Object.fromEntries(
-        FORM_FIELDS.map((f) => [f.name, f.validate(state.values[f.name])])
-      );
-      errors.phone = action.phoneValidate(state.values.phone);
-      const touched = Object.fromEntries(
-        FORM_FIELDS.map((f) => [f.name, true])
-      );
-      return { ...state, errors, touched };
-    }
+    case "VALIDATE_ALL":
+      return {
+        ...state,
+        errors:  action.errors,
+        touched: touchAll(FORM_FIELDS),
+      };
 
     case "SET_STATUS":
       return {
         ...state,
-        submitStatus: action.status,
-        serverError:  action.serverError ?? null,
+        submitStatus:   action.status,
+        serverError:    action.serverError    ?? null,
+        successMessage: action.successMessage ?? null,
       };
 
     default:
@@ -102,14 +104,14 @@ function formReducer(state, action) {
 export function useContactForm() {
   const [state, dispatch] = useReducer(formReducer, initialState);
 
-  /* Dynamic phone validator — rebuilds when country changes */
   const phoneValidate = useMemo(() => {
     const match = COUNTRY_OPTIONS.find((c) => c.value === state.values.country);
-    return makePhoneValidator(match?.validStarts ?? []);
+    return makePhoneValidator(match?.validStarts ?? [], match?.localLength);
   }, [state.values.country]);
 
   const handleSelectCountry = useCallback((value) => {
     dispatch({ type: "SELECT_COUNTRY", value });
+    analyticsService.trackCountrySelected(value);
   }, []);
 
   const handleBackToCountry = useCallback(() => {
@@ -134,30 +136,31 @@ export function useContactForm() {
 
   /* ── Submit ── */
   const handleSubmit = useCallback(async () => {
-    /* 1. Run all validators and mark all fields touched */
-    const errors = Object.fromEntries(
-      FORM_FIELDS.map((f) => [f.name, f.validate(state.values[f.name])])
-    );
-    errors.phone = phoneValidate(state.values.phone);
+    const errors = validateAll(FORM_FIELDS, state.values, phoneValidate);
+    dispatch({ type: "VALIDATE_ALL", errors });
 
-    dispatch({ type: "VALIDATE_ALL", phoneValidate, errors });
+    if (hasErrors(errors)) return;
 
-    /* 2. Abort if any field has an error */
-    const hasErrors = Object.values(errors).some((e) => e !== "");
-    if (hasErrors) return;
-
-    /* 3. Fire the API call */
-    dispatch({ type: "SET_STATUS", status: "loading" });
+    dispatch({ type: "SET_STATUS", status: SUBMIT_STATUS.LOADING });
 
     try {
-      await contactService.submit(
+      const result = await contactService.submit(
         formatPayload(state.values, state.brochure)
       );
-      dispatch({ type: "SET_STATUS", status: "success" });
+      analyticsService.trackFormSubmitted(state.values.country, state.values.portfolio);
+      dispatch({
+        type:           "SET_STATUS",
+        status:         SUBMIT_STATUS.SUCCESS,
+        successMessage: result.message ?? null,
+      });
     } catch (err) {
-      const message =
-        err?.response?.data?.message ?? "Something went wrong. Please try again.";
-      dispatch({ type: "SET_STATUS", status: "error", serverError: message });
+      const message = extractErrorMessage(err);
+      analyticsService.trackSubmitError(message);
+      dispatch({
+        type:        "SET_STATUS",
+        status:      SUBMIT_STATUS.ERROR,
+        serverError: message,
+      });
     }
   }, [state.values, state.brochure, phoneValidate]);
 
@@ -173,6 +176,7 @@ export function useContactForm() {
     brochure:             state.brochure,
     submitStatus:         state.submitStatus,
     serverError:          state.serverError,
+    successMessage:       state.successMessage,
     isValid,
     phoneValidate,
     handleSelectCountry,

@@ -2,7 +2,7 @@
    Contact Us — SuccessMessage
    src/modules/contact-us/components/SuccessMessage/SuccessMessage.jsx
 ═══════════════════════════════════════════════════════════════ */
-export default function SuccessMessage() {
+export default function SuccessMessage({ message }) {
   return (
     <div className="cf-success" role="status" aria-live="polite">
       <div className="cf-success__icon" aria-hidden="true">
@@ -23,7 +23,7 @@ export default function SuccessMessage() {
       <h3 className="cf-success__title">Thank you!</h3>
 
       <p className="cf-success__sub">
-        We'll be in touch shortly to schedule your personalized demo.
+        {message ?? "We'll be in touch shortly to schedule your personalized demo."}
       </p>
     </div>
   );

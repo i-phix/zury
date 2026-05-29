@@ -25,4 +25,10 @@ const leadSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Fast lookups by email (CRM queries, duplicate checks)
+leadSchema.index({ email: 1 });
+
+// Compound index for filtering leads by status + date in admin views
+leadSchema.index({ status: 1, createdAt: -1 });
+
 export default mongoose.model("Lead", leadSchema);

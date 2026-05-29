@@ -2,10 +2,12 @@
    Contact Us — FormField
    src/modules/contact-us/components/FormField/FormField.jsx
 ═══════════════════════════════════════════════════════════════ */
-import { useState } from "react";
+import { useState, memo }  from "react";
+import CountrySelect       from "../CountrySelect/CountrySelect";
+import PortfolioSelect     from "../PortfolioSelect/PortfolioSelect";
 
-export default function FormField({
-  field, value, error, touched, onChange, onBlur, phoneCode,
+const FormField = memo(function FormField({
+  field, value, error, touched, onChange, onBlur, phoneCode, disabled,
 }) {
   const [focused, setFocused] = useState(false);
 
@@ -25,6 +27,7 @@ export default function FormField({
     name:               field.name,
     value,
     className:          baseClass,
+    disabled,
     "aria-invalid":     showError ? "true" : "false",
     "aria-describedby": showError ? `${id}-error` : undefined,
     onFocus:  () => setFocused(true),
@@ -34,19 +37,31 @@ export default function FormField({
 
   let inputEl;
 
-  if (field.type === "select") {
+  if (field.name === "country") {
     inputEl = (
-      <select {...sharedProps}>
-        <option value="" disabled>{labelText}</option>
-        {field.options.map((opt) => (
-          <option key={opt.value} value={opt.value}>{opt.label}</option>
-        ))}
-      </select>
+      <CountrySelect
+        value={value}
+        error={showError}
+        disabled={disabled}
+        onChange={(val) => onChange(field.name, val)}
+        onBlur={() => { setFocused(false); onBlur(field.name); }}
+      />
     );
 
- } else if (field.type === "tel") {
+  } else if (field.name === "portfolio") {
     inputEl = (
-      <div className={`cf-phone-wrap ${showError ? "cf-phone-wrap--error" : ""} ${focused ? "cf-phone-wrap--focused" : ""}`}>
+      <PortfolioSelect
+        value={value}
+        error={showError}
+        disabled={disabled}
+        onChange={(val) => onChange(field.name, val)}
+        onBlur={() => { setFocused(false); onBlur(field.name); }}
+      />
+    );
+
+  } else if (field.type === "tel") {
+    inputEl = (
+      <div className={`cf-phone-wrap${showError ? " cf-phone-wrap--error" : ""}${focused ? " cf-phone-wrap--focused" : ""}`}>
         <span className="cf-phone-code">+{phoneCode}</span>
         <div className="cf-phone-divider" aria-hidden="true" />
         <input
@@ -57,6 +72,7 @@ export default function FormField({
           maxLength={13}
           placeholder="712 345 678"
           value={value}
+          disabled={disabled}
           className="cf-phone-input"
           aria-invalid={showError ? "true" : "false"}
           aria-describedby={showError ? `${id}-error` : undefined}
@@ -69,7 +85,7 @@ export default function FormField({
         />
       </div>
     );
-    
+
   } else if (field.type === "textarea") {
     inputEl = (
       <textarea {...sharedProps} rows={field.rows ?? 4} placeholder={labelText} />
@@ -96,4 +112,6 @@ export default function FormField({
       )}
     </div>
   );
-}
+});
+
+export default FormField;

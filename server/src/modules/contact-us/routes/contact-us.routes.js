@@ -4,9 +4,10 @@
 ═══════════════════════════════════════════════════════════════ */
 import express               from "express";
 import { submitContactForm } from "../controllers/contact-us.controller.js";
+import { validateContactForm } from "../validators/contact-us.validator.js";
 
 const router = express.Router();
 
-router.post("/", submitContactForm);
+router.post("/", validateContactForm, submitContactForm);
 
 export default router;

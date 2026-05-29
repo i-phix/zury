@@ -1,31 +1,27 @@
 /* ═══════════════════════════════════════════════════════════════
    Contact Us — Root Page Shell
-   src/modules/contact-us/pages/ContactPage/ContactPage.jsx
+   src/modules/contact-us/pages/ContactUsPage/ContactUsPage.jsx
 ═══════════════════════════════════════════════════════════════ */
-import { Component }             from "react";
-import NavBar                    from "../../../home/components/NavBar/NavBar";
-import Footer                    from "../../../home/components/Footer/Footer";
-import ChatWidget                from "../../../home/components/ChatWidget/ChatWidget";
-import ContactCopy               from "../../components/ContactCopy/ContactCopy";
-import CountryStep               from "../../components/CountryStep/CountryStep";
-import ContactForm               from "../../components/ContactForm/ContactForm";
-import Stepper                   from "../../../../shared/components/ui/Stepper/Stepper";
-import { useContactForm }        from "../../hooks/useContactForm";
-import { ContactFormContext }    from "../../hooks/ContactFormContext";
-import { useRevealRefs }         from "../../../home/hooks/useReveal";
-
-const FORM_STEPS = [
-  { label: "Region"  },
-  { label: "Details" },
-  { label: "Confirm" },
-];
+import { Component, useEffect }      from "react";
+import NavBar                        from "../../../home/components/NavBar/NavBar";
+import Footer                        from "../../../home/components/Footer/Footer";
+import ChatWidget                    from "../../../home/components/ChatWidget/ChatWidget";
+import ContactCopy                   from "../../components/ContactCopy/ContactCopy";
+import CountryStep                   from "../../components/CountryStep/CountryStep";
+import ContactForm                   from "../../components/ContactForm/ContactForm";
+import Stepper                       from "../../../../shared/components/ui/Stepper/Stepper";
+import { useContactForm }            from "../../hooks/useContactForm";
+import { ContactFormContext }        from "../../hooks/ContactFormContext";
+import { useRevealRefs }             from "../../../home/hooks/useReveal";
+import { analyticsService }          from "../../services/analytics.service";
+import { FORM_STEPS, SUBMIT_STATUS } from "../../constants/contact.constants";
 
 /* ── Error boundary ── */
 class Boundary extends Component {
   state = { err: null };
   static getDerivedStateFromError(e) { return { err: e }; }
   componentDidCatch(err, info) {
-    console.error("[ContactPage]", err, info.componentStack);
+    console.error("[ContactUsPage]", err, info.componentStack);
   }
   render() {
     return this.state.err
@@ -41,13 +37,17 @@ class Boundary extends Component {
 /* ── Inner shell ── */
 function ContactShell() {
   const [copyRef, cardRef] = useRevealRefs(2);
-  const formState = useContactForm();                    // single instance
-  const { step, submitted, handleSelectCountry } = formState;
+  const formState = useContactForm();
+  const { step, submitStatus, handleSelectCountry } = formState;
 
-  const currentStep = step === "country" ? 1 : submitted ? 3 : 2;
+  const currentStep = step === "country" ? 1 : submitStatus === SUBMIT_STATUS.SUCCESS ? 3 : 2;
+
+  useEffect(() => {
+    analyticsService.trackFormViewed();
+  }, []);
 
   return (
-    <ContactFormContext.Provider value={formState}>   {/* share with all children */}
+    <ContactFormContext.Provider value={formState}>
       <div className="home">
         <NavBar />
 
@@ -93,7 +93,7 @@ function ContactShell() {
 }
 
 /* ── Page shell ── */
-export default function ContactPage() {
+export default function ContactUsPage() {
   return (
     <Boundary>
       <ContactShell />

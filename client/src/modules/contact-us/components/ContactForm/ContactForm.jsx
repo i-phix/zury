@@ -2,9 +2,10 @@
    Contact Us — ContactForm  (step 2)
    src/modules/contact-us/components/ContactForm/ContactForm.jsx
 ═══════════════════════════════════════════════════════════════ */
+import { useMemo }               from "react";
 import { useContactFormContext } from "../../hooks/ContactFormContext";
 import { FORM_FIELDS }           from "../../data/formConfig";
-import { COUNTRY_OPTIONS }       from "../../data/formConfig";
+import { COUNTRY_OPTIONS }       from "../../data/countryOptions";
 import FormField                 from "../FormField/FormField";
 import SuccessMessage            from "../SuccessMessage/SuccessMessage";
 
@@ -16,6 +17,7 @@ export default function ContactForm() {
     brochure,
     submitStatus,
     serverError,
+    successMessage,
     handleChange,
     handleBlur,
     handleToggleBrochure,
@@ -23,12 +25,16 @@ export default function ContactForm() {
     handleBackToCountry,
   } = useContactFormContext();
 
-  if (submitStatus === "success") return <SuccessMessage />;
+  if (submitStatus === "success") return <SuccessMessage message={successMessage} />;
 
-  const isLoading     = submitStatus === "loading";
-  const visibleFields = FORM_FIELDS.filter((f) => f.name !== "country");
-  const rows          = groupFieldsIntoRows(visibleFields);
-  const countryLabel  = COUNTRY_OPTIONS.find(
+  const isLoading = submitStatus === "loading";
+
+  const rows = useMemo(() => {
+    const visible = FORM_FIELDS.filter((f) => f.name !== "country");
+    return groupFieldsIntoRows(visible);
+  }, []);
+
+  const countryLabel = COUNTRY_OPTIONS.find(
     (c) => c.value === values.country
   )?.label ?? "";
 
@@ -95,11 +101,9 @@ export default function ContactForm() {
       <p className="cf-consent">
         By clicking submit below, you consent to allow the processing of your
         personal data by Zuri as described in the{" "}
-        <a href="#" className="cf-consent__link">Privacy Statement</a>
-        .
+        <a href="#" className="cf-consent__link">Privacy Statement</a>.
       </p>
 
-      {/* Server error */}
       {serverError && (
         <p className="cf-server-error" role="alert">
           {serverError}
