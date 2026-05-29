@@ -2,7 +2,7 @@
    Zuri — Home Navbar
    src/modules/home/components/NavBar/NavBar.jsx
    Layout: Logo | Nav links | Contact | Get Started
-   SEO: React Router <Link>, real hrefs, aria attributes
+   SEO: React Router <Link>, real hrefs, aria attributess
 ═══════════════════════════════════════════════════════════════ */
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate }           from "react-router-dom";
